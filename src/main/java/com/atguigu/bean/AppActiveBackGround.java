@@ -1,6 +1,6 @@
 package com.atguigu.bean;
 
-public class AppActive_background {
+public class AppActiveBackGround {
 
     private String active_source;//1=upgrade,2=download(下载),3=plugin_upgrade
 

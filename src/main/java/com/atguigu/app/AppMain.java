@@ -1,4 +1,4 @@
-package com.atguigu.appclient;
+package com.atguigu.app;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
@@ -679,7 +679,7 @@ public class AppMain {
      */
     private static JSONObject generatbeforeground() {
 
-        AppActive_foreground appActive_foreground = new AppActive_foreground();
+        AppActiveForeGround appActive_foreground = new AppActiveForeGround();
 
         // 推送消息的id
         int flag = rand.nextInt(2);
@@ -706,7 +706,7 @@ public class AppMain {
      */
     private static JSONObject generateBackground() {
 
-        AppActive_background appActive_background = new AppActive_background();
+        AppActiveBackGround appActive_background = new AppActiveBackGround();
 
         // 启动源
         int flag = rand.nextInt(3) + 1;

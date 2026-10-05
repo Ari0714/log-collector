@@ -1,6 +1,6 @@
 package com.atguigu.bean;
 
-public class AppActive_foreground {
+public class AppActiveForeGround {
 
 
     private String push_id;//推送的消息的id，如果不是从推送消息打开，传空

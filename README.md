@@ -1,29 +1,29 @@
 # Log Collector
 
-这是一个 Java 项目，用于模拟移动应用的行为日志数据，生成常见的 App 事件日志并输出为 JSON。项目主要面向大数据与日志分析场景，比如对日志采集、ETL、数仓建模、实时分析等进行演示和测试。
+This is a Java project that simulates mobile application behavior logs, generates common App event logs, and outputs them as JSON. It is mainly designed for big data and log analysis scenarios such as log collection, ETL, data warehouse modeling, and real-time analytics demos and testing.
 
-## 项目作用
+## Project purpose
 
-该项目会随机生成以下类型的日志：
+The project randomly generates the following log types:
 
-- App 启动日志
-- 商品曝光/点击日志
-- 商品详情页访问日志
-- 商品列表加载日志
-- 广告展示/点击日志
-- 通知日志
-- 前台/后台活跃日志
-- 异常错误日志
-- 评论、收藏、点赞日志
+- App launch logs
+- Product exposure/click logs
+- Product detail page access logs
+- Product list loading logs
+- Ad display/click logs
+- Notification logs
+- Foreground/background activity logs
+- Error logs
+- Comment, favorite, and like logs
 
-这些日志中包含公共字段（设备信息、用户信息、网络环境、版本信息等）以及事件字段，适合用于：
+These logs contain common fields (device information, user information, network environment, version details, etc.) and event-specific fields, making them suitable for:
 
-- 数据采集测试
-- Spark / Flink / Hive 等大数据任务调试
-- 日志结构分析
-- 数据平台演示
+- Data collection testing
+- Big data job debugging with Spark / Flink / Hive
+- Log structure analysis
+- Data platform demos
 
-## 项目结构
+## Project structure
 
 ```text
 logcollector
@@ -52,71 +52,88 @@ logcollector
 └── target
 ```
 
-## 技术栈
+## Tech stack
 
 - Java 8
 - Maven
 - Fastjson
 - Logback
 
-## 构建项目
+## Build the project
 
-在项目根目录执行：
+Run the following command in the project root:
 
 ```bash
 mvn clean package
 ```
 
-构建成功后，会生成带依赖的可执行 jar，通常位于：
+After a successful build, the executable JAR with dependencies is generated and typically located at:
 
 ```text
 target/logcollector-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-## 运行方式
+## Run the project
 
-### 1：默认参数
+### 1: Default parameters
 
 ```bash
 java -jar target/logcollector-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-默认会生成 1000 条日志，发送间隔为 0 毫秒。
+By default, it generates 1000 logs with a send interval of 0 milliseconds.
 
-### 2：自定义参数
+### 2: Custom parameters
 
-`AppMain` 接受两个参数：
+`AppMain` accepts two parameters:
 
-- 参数一：每条日志发送前的延迟时间（毫秒）
-- 参数二：循环生成的总次数
+- Parameter 1: Delay before sending each log entry (milliseconds)
+- Parameter 2: Total number of loops to generate
 
-例如：
+For example:
 
 ```bash
 java -jar target/logcollector-1.0-SNAPSHOT-jar-with-dependencies.jar 100 5000
 ```
 
-表示：每条日志之间等待 100 毫秒，总共生成 5000 条日志。
+This means: wait 100 milliseconds between logs and generate 5000 logs in total.
 
-## 日志输出
+## Data flow
 
-项目使用 Logback 输出日志，日志会同时输出：
+```mermaid
+flowchart LR
+    A[App event generator] --> B[Base/common fields enrichment]
+    B --> C[Specific event modeling]
+    C --> D[JSON log generation]
+    D --> E[Logback output]
+    E --> F[Console]
+    E --> G[/tmp/logs/app-YYYY-MM-DD.log]
 
-- 控制台
+    C --> H[Examples: AppStart / AppDisplay / AppAd / AppComment]
+    H --> D
+```
+
+The flow is: random app behavior simulation -> enrich with common metadata -> build concrete event payloads -> serialize to JSON -> emit to log sinks.
+
+## Log output
+
+The project uses Logback for logging, and logs are written to both:
+
+- Console
 - `/tmp/logs/app-YYYY-MM-DD.log`
 
-日志格式大致如下：
+A sample log format is roughly as follows:
 
 ```json
 {"mid":"0","uid":"0","vc":"5","vn":"1.2.7","l":"en","sr":"X","os":"8.2.9",...}
 ```
 
-或者：
+Or:
 
 ```text
 1700000000000|{"ap":"app","cm":{"mid":"0",...},"et":[{"en":"display",...}]}
 ```
 
-## 说明
+## Notes
 
-这个项目本质上是一个日志数据模拟器，而不是完整的业务系统。它的目标是快速生成大量样例日志，方便你在大数据、数据处理、日志采集和分析相关组件中进行验证和演示。
+This project is essentially a log data simulator rather than a complete business system. Its goal is to quickly generate large volumes of sample logs so that you can validate and demonstrate components related to big data, data processing, log collection, and analysis.
