@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.atguigu</groupId>
-    <artifactId>logcollector</artifactId>
+    <artifactId>log-collector</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
